@@ -1,5 +1,6 @@
+package com.fatec.at1nutrapp;
 
-public class Ods {
+public class ODS {
     private String[] numero;
     private String[] descricao;     
 

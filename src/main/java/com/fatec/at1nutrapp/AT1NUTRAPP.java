@@ -8,11 +8,11 @@ public class AT1NUTRAPP {
         Scanner menu = new Scanner(System.in);
 
         // Variaveis globais do PI (apenas declaradas)
-        // String apresentacao = "";
-        // String nomeProj="";
-        // String numeros = new String[0];
-        // String descricao = new String[0];
-        // String[] equipe = new String[0];
+        String apresentacao = "";
+        String nomeProj = "";
+        String[] numeros = new String[0];
+        String[] descricao = new String[0];
+        String[] equipe = new String[0];
 
         Projeto proj = new Projeto();
         Equipe eqp = new Equipe();
@@ -21,8 +21,8 @@ public class AT1NUTRAPP {
         int opcaoPrincipal;
         do {
             // Menu principal
-            System.out.println("\n----- NUTRAPP -----");
-            System.out.println("1. Conhecer a Nutrapp");
+            System.out.println("\n----- PROJETO -----");
+            System.out.println("1. Conhecer o projeto");
             System.out.println("2. Editar Informacoes");
             System.out.println("3. Sair");
             System.out.print("Digite uma opcao: ");
@@ -43,16 +43,16 @@ public class AT1NUTRAPP {
 
                         switch (opcaoSubmenu) {
                             case 1:
-                                String nomeProj = proj.getNomeProj();
-                                String apresentacao = projeto.getApresentacao();
+                                nomeProj = proj.getNomeProj();
+                                apresentacao = proj.getApresentacao();
                                 if ((apresentacao == null || apresentacao.isEmpty()) || (nomeProj == null || nomeProj.isEmpty())) {
                                     System.out.println("\n[Sem apresentacao cadastrada]");
                                 } else {
-                                    System.out.println("\nApresentacao do projeto "+ nomeProj +": " + apresentacao);
+                                    System.out.println("\nApresentacao do projeto " + nomeProj + ": " + apresentacao);
                                 }
                                 break;
                             case 2:
-                                String[] numeros = ods.getNumero();
+                                numeros = ods.getNumero();
                                 String[] descricoes = ods.getDescricao();
                                 if (numeros == null || descricoes == null || numeros.length == 0) {
                                     System.out.println("\n[Sem ODS cadastradas]");
@@ -74,13 +74,28 @@ public class AT1NUTRAPP {
                                 }
                                 break;
                             case 4:
-                                System.out.println("\nResumo Geral:");
+                                
+                                System.out.println("\nResumo Geral: ");
+                                nomeProj = proj.getNomeProj();
+                                if (nomeProj != null && !nomeProj.isEmpty()) {
+                                    System.out.println("Nome do projeto: " + nomeProj);
+                                } else {
+                                    System.out.println("\n[Sem nome cadastrado]");
+                                }
+                                apresentacao = proj.getApresentacao();
+                                if (apresentacao != null && !apresentacao.isEmpty()) {
+                                    System.out.println("Apresentacao: " + apresentacao);
+                                } else {
+                                    System.out.println("\n[Sem apresentacao cadastrada]");
+                                }                                
                                 membros = eqp.getMembros();
                                 if (membros != null && membros.length > 0) {
                                     System.out.println("Equipe:");
                                     for (String nome : membros) {
                                         System.out.println("- " + nome);
                                     }
+                                } else {
+                                    System.out.println("\n[Sem equipe cadastrada]");
                                 }
                                 numeros = ods.getNumero();
                                 descricoes = ods.getDescricao();
@@ -88,15 +103,10 @@ public class AT1NUTRAPP {
                                     for (int i = 0; i < numeros.length; i++) {
                                         System.out.println("ODS " + numeros[i] + " - " + descricoes[i]);
                                     }
+                                } else {
+                                    System.out.println("\n[Sem ODS cadastradas]");
                                 }
-                                nomeProj = proj.getNomeProj();
-                                if (nomeProj != null && !nomeProj.isEmpty()) {
-                                    System.out.println("Nome do projeto: " + nomeProj);
-                                }
-                                apresentacao = proj.getApresentacao();
-                                if (apresentacao != null && !apresentacao.isEmpty()) {
-                                    System.out.println("Apresentacao: " + apresentacao);
-                                }
+                                
                                 break;
                             case 5:
                                 System.out.println("Voltando ao menu principal...");
@@ -118,44 +128,49 @@ public class AT1NUTRAPP {
                         System.out.print("Escolha: ");
                         opcaoEditar = menu.nextInt();
 
-                        menu.nextLine();
                         switch (opcaoEditar) {
                             case 1:
                                 System.out.print("Digite o nome do projeto: ");
-                                nomeProj = menu.nextLine();
+                                nomeProj = menu.next();
+                                menu.nextLine();
                                 proj.setNomeProj(nomeProj);
 
                                 System.out.print("Digite a nova apresentacao: ");
                                 apresentacao = menu.nextLine();
-                                proj.setApresentacao();
+                                proj.setApresentacao(apresentacao);
 
                                 System.out.println("Apresentacao atualizada!");
                                 break;
                             case 2:
                                 System.out.print("Digite quantas ODS tem no seu projeto: ");
                                 int qtdods = menu.nextInt();
-                                String[] numeros = new String[qtdods];
-                                String[] descricoes = new String[qtdods];
+                                numeros = new String[qtdods];
+                                descricao = new String[qtdods];
 
                                 for (int x = 0; x < qtdods; x++) {
                                     System.out.print("Digite o número da ODS: ");
                                     numeros[x] = menu.next();
+                                    menu.nextLine();
+
                                     System.out.print("Digite a descricao da ODS " + (numeros[x]) + ": ");
-                                    descricoes[x] = menu.next();
+                                    descricao[x] = menu.nextLine();
+                                    
                                 }
 
                                 ods.setNumero(numeros);
-                                ods.setDescricao(descricoes);
+                                ods.setDescricao(descricao);
                                 System.out.println("ODS atualizadas!");
                                 break;
                             case 3:
                                 System.out.print("Quantos membros na equipe? ");
                                 int quantidade = menu.nextInt();
+                                menu.nextLine();
 
                                 equipe = new String[quantidade];
                                 for (int i = 0; i < quantidade; i++) {
                                     System.out.print("Digite o nome do integrante " + (i + 1) + ": ");
-                                    equipe[i] = menu.next();
+                                    equipe[i] = menu.nextLine();
+                                    
                                 }
                                 eqp.setMembros(equipe);
                                 System.out.println("Equipe atualizada!");
